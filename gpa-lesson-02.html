@@ -233,6 +233,72 @@
   .principle-text { font-size: 14px; line-height: 1.55; color: var(--ink); }
   .principle-text em { font-style: italic; }
 
+  .session-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+  }
+  .session-card {
+    appearance: none;
+    width: 100%;
+    background: white;
+    border: 1px solid var(--cream-deep);
+    border-radius: 20px;
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    column-gap: 14px;
+    align-items: center;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    color: inherit;
+  }
+  .session-card:hover {
+    border-color: var(--clay);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  .session-card:active { transform: translateY(0); }
+  .session-numeral {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--cream-warm);
+    border: 1px solid var(--cream-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 20px;
+    color: var(--ink);
+    font-weight: 400;
+    font-style: italic;
+  }
+  .session-body { min-width: 0; }
+  .session-name {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .session-sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-faint);
+    font-weight: 300;
+    margin-top: 2px;
+  }
+  .session-chevron {
+    color: var(--ink-faint);
+    font-size: 18px;
+  }
+
   /* -------- ILLUSTRATION CARD (core primitive) -------- */
   .illus-card {
     background: white;
@@ -448,6 +514,10 @@
     width: 100%;
     max-width: 520px;
   }
+  .quiz-choice-row {
+    grid-template-columns: repeat(auto-fit, minmax(78px, 1fr));
+    gap: 8px;
+  }
 
   .choice-card {
     background: white;
@@ -476,6 +546,33 @@
     display: block;
     pointer-events: none;
   }
+  .choice-card .mixed-figure,
+  .shelf-card .mixed-figure {
+    width: 100%;
+    aspect-ratio: 16 / 11;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .choice-card .mixed-figure.emoji-figure,
+  .shelf-card .mixed-figure.emoji-figure {
+    aspect-ratio: 1;
+  }
+  .choice-card .mixed-figure img,
+  .shelf-card .mixed-figure img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+  .mixed-emoji {
+    font-size: clamp(32px, 7vw, 58px);
+    line-height: 1;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
+  }
   .choice-card:active { transform: scale(0.97); }
   .choice-card:hover { border-color: var(--clay-soft); }
   .choice-card.correct {
@@ -493,6 +590,21 @@
     animation: hintGlow 1.6s ease-in-out infinite;
   }
   .choice-card.dim { opacity: 0.4; pointer-events: none; }
+  .choice-card.locked-wrong {
+    border-color: var(--clay);
+    opacity: 0.55;
+  }
+  .choice-card.emoji-card,
+  .shelf-card.emoji-card {
+    padding: 12px;
+  }
+  .quiz-choice-row .choice-card {
+    padding: 8px;
+    border-radius: 18px;
+  }
+  .quiz-choice-row .mixed-emoji {
+    font-size: clamp(26px, 5vw, 42px);
+  }
 
   @keyframes gentleBounce {
     0%, 100% { transform: translateY(0); }
@@ -513,6 +625,88 @@
     font-style: italic;
     font-size: 13px;
     color: var(--ink-faint);
+  }
+
+  .shelf-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+    gap: 10px;
+    width: 100%;
+    max-width: 520px;
+  }
+  .shelf-card {
+    background: white;
+    border-radius: 20px;
+    border: 2px solid var(--cream-deep);
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    user-select: none;
+    overflow: hidden;
+  }
+  .shelf-card:hover { border-color: var(--clay-soft); }
+  .shelf-card:active { transform: scale(0.97); }
+  .shelf-card.speaking {
+    border-color: var(--clay-soft);
+    box-shadow:
+      0 6px 20px rgba(31, 42, 46, 0.1),
+      0 0 0 3px var(--clay-soft);
+  }
+
+  .result-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+  }
+  .result-stars {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 48px;
+    color: var(--gold);
+    letter-spacing: 6px;
+    font-weight: 500;
+    line-height: 1;
+  }
+  .result-stars.empty { color: var(--cream-deep); }
+  .result-score {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 58px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .result-score .of {
+    color: var(--ink-faint);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 38px;
+  }
+  .result-pass {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+  .result-pass.pass { color: var(--moss); }
+  .result-pass.nopass { color: var(--clay); }
+  .result-meta {
+    display: flex;
+    gap: 18px;
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    color: var(--ink-faint);
+    font-style: italic;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .result-meta-item b {
+    font-style: normal;
+    font-weight: 500;
+    color: var(--ink);
   }
 
   /* -------- NAV -------- */
@@ -583,7 +777,7 @@
   <section class="screen show" data-screen="0">
     <div class="screen-title">Pointing <em>is teaching.</em></div>
     <div class="screen-text">
-      In this lesson, a friend shows you what words like <em>I</em>, <em>you</em>, and <em>they</em> mean — just by pointing. Watch carefully. Listen. There is nothing to say.
+      In this lesson, a friend shows you what words like <em>I</em>, <em>you</em>, and <em>they</em> mean — just by pointing. Watch carefully. Listen. There is nothing to say. Then you can review them beside the twelve things from Lesson 1.
     </div>
     <div class="principle-card">
       <div class="principle-label">Eight words, four pairs</div>
@@ -591,6 +785,32 @@
         You'll meet them two at a time, with practice after each pair.<br>
         <em>I</em> and <em>you</em> — <em>he</em> and <em>she</em> — <em>we</em> and <em>they</em> — <em>this</em> and <em>that</em>.
       </div>
+    </div>
+    <div class="session-list">
+      <button class="session-card" data-session-target="1">
+        <div class="session-numeral">1</div>
+        <div class="session-body">
+          <div class="session-name">Introduction</div>
+          <div class="session-sub">Meet the eight pronouns. Listen and watch.</div>
+        </div>
+        <div class="session-chevron">›</div>
+      </button>
+      <button class="session-card" data-session-target="3">
+        <div class="session-numeral">2</div>
+        <div class="session-body">
+          <div class="session-name">The Shelf</div>
+          <div class="session-sub">Review Lesson 1 things and Lesson 2 pronouns together.</div>
+        </div>
+        <div class="session-chevron">›</div>
+      </button>
+      <button class="session-card" data-session-target="4">
+        <div class="session-numeral">3</div>
+        <div class="session-body">
+          <div class="session-name">Quiz</div>
+          <div class="session-sub">Twenty items from both lessons. One full review.</div>
+        </div>
+        <div class="session-chevron">›</div>
+      </button>
     </div>
   </section>
 
@@ -627,11 +847,11 @@
     <div class="slide-counter" id="slideCounter"></div>
   </section>
 
-  <!-- 2: END -->
+  <!-- 2: INTRO COMPLETE -->
   <section class="screen" data-screen="2">
     <div class="screen-title">Well done.</div>
     <div class="screen-text">
-      Eight pointing words — the hinges of every conversation. They'll come back often as the lessons go on. The more you meet them, the deeper they settle.
+      Eight pointing words — the hinges of every conversation. They’ll come back often as the lessons go on. Next is the Shelf, where Lesson 1 and Lesson 2 sit side by side.
     </div>
     <div class="principle-card">
       <div class="principle-label">What you met</div>
@@ -641,6 +861,49 @@
         <strong>we, they</strong> — groups, including or not including you.<br>
         <strong>this, that</strong> — the near thing and the far thing.
       </div>
+    </div>
+  </section>
+
+  <!-- 3: SHELF -->
+  <section class="screen" data-screen="3">
+    <div class="activity-label">The Shelf</div>
+    <div class="screen-text" style="font-size: 15px;">
+      Tap any card to hear it again. Lesson 1 things and Lesson 2 pronouns are mixed together here for relaxed review.
+    </div>
+    <div class="shelf-grid" id="shelfGrid"></div>
+  </section>
+
+  <!-- 4: QUIZ -->
+  <section class="screen" data-screen="4">
+    <div class="activity-label emphasis">Quiz · All Twenty Items</div>
+    <div class="practice-wrap">
+      <div class="prompt-btn-wrap">
+        <button class="prompt-btn" id="quizPromptBtn" aria-label="Play prompt">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <div class="replay-hint">Tap to hear it again</div>
+      </div>
+      <div class="choice-row quiz-choice-row" id="quizChoiceRow"></div>
+      <div class="round-indicator" id="quizRoundIndicator"></div>
+    </div>
+  </section>
+
+  <!-- 5: QUIZ RESULT -->
+  <section class="screen" data-screen="5">
+    <div class="activity-label">Quiz · Result</div>
+    <div class="result-wrap">
+      <div class="result-stars" id="resultStars">★★★</div>
+      <div class="result-score"><span id="resultScoreNum">20</span><span class="of"> / 20</span></div>
+      <div class="result-pass" id="resultPass">You passed.</div>
+      <div class="result-meta">
+        <div class="result-meta-item">Attempt <b id="resultAttempt">1</b></div>
+        <div class="result-meta-item">Best <b id="resultBest">20/20</b></div>
+        <div class="result-meta-item">Time <b id="resultTime">1:42</b></div>
+      </div>
+    </div>
+    <div class="principle-card" style="max-width: 340px;">
+      <div class="principle-label" id="resultNoteLabel">A note</div>
+      <div class="principle-text" id="resultNoteText">Both lessons are still here whenever you want another pass.</div>
     </div>
   </section>
 
@@ -668,30 +931,46 @@
 <script>
 /* ============================================================
    GPA Lesson 2 — Silent Phase, Eight Pronouns
-   Four pairs, introduced two at a time with practice between:
-     1. I, you
-     2. he, she
-     3. we, they
-     4. this, that
-   Gesture is meaning. Speech bubble stays empty; voice names.
+   Introduction + Shelf + Quiz
+   Shelf and Quiz review Lesson 1 items together with Lesson 2.
    ============================================================ */
 
+const SCREEN_HOME = 0;
+const SCREEN_INTRO = 1;
+const SCREEN_INTRO_DONE = 2;
+const SCREEN_SHELF = 3;
+const SCREEN_QUIZ = 4;
+const SCREEN_QUIZ_RESULT = 5;
+
 const VOCAB = [
-  { word: 'I',    article: '',   image: 'assets/lesson-02/pronoun-i.png'    },
-  { word: 'you',  article: '',   image: 'assets/lesson-02/pronoun-you.png'  },
-  { word: 'he',   article: '',   image: 'assets/lesson-02/pronoun-he.png'   },
-  { word: 'she',  article: '',   image: 'assets/lesson-02/pronoun-she.png'  },
-  { word: 'we',   article: '',   image: 'assets/lesson-02/pronoun-we.png'   },
-  { word: 'they', article: '',   image: 'assets/lesson-02/pronoun-they.png' },
-  { word: 'this', article: '',   image: 'assets/lesson-02/pronoun-this.png' },
-  { word: 'that', article: '',   image: 'assets/lesson-02/pronoun-that.png' },
+  { word: 'I',    image: 'assets/lesson-02/pronoun-i.png',    kind: 'image', lesson: 2 },
+  { word: 'you',  image: 'assets/lesson-02/pronoun-you.png',  kind: 'image', lesson: 2 },
+  { word: 'he',   image: 'assets/lesson-02/pronoun-he.png',   kind: 'image', lesson: 2 },
+  { word: 'she',  image: 'assets/lesson-02/pronoun-she.png',  kind: 'image', lesson: 2 },
+  { word: 'we',   image: 'assets/lesson-02/pronoun-we.png',   kind: 'image', lesson: 2 },
+  { word: 'they', image: 'assets/lesson-02/pronoun-they.png', kind: 'image', lesson: 2 },
+  { word: 'this', image: 'assets/lesson-02/pronoun-this.png', kind: 'image', lesson: 2 },
+  { word: 'that', image: 'assets/lesson-02/pronoun-that.png', kind: 'image', lesson: 2 },
 ];
 
-// Indices for the four pairs
-// Pair 1: I=0, you=1     → all-together: items 0..1
-// Pair 2: he=2, she=3    → all-together: items 0..3
-// Pair 3: we=4, they=5   → all-together: items 0..5
-// Pair 4: this=6, that=7 → all-together: items 0..7
+const LESSON_ONE_ITEMS = [
+  { word: 'cup',      article: 'a',  emoji: '☕',  kind: 'emoji', lesson: 1 },
+  { word: 'book',     article: 'a',  emoji: '📖',  kind: 'emoji', lesson: 1 },
+  { word: 'key',      article: 'a',  emoji: '🔑',  kind: 'emoji', lesson: 1 },
+  { word: 'phone',    article: 'a',  emoji: '📱',  kind: 'emoji', lesson: 1 },
+  { word: 'door',     article: 'a',  emoji: '🚪',  kind: 'emoji', lesson: 1 },
+  { word: 'bag',      article: 'a',  emoji: '👜',  kind: 'emoji', lesson: 1 },
+  { word: 'clock',    article: 'a',  emoji: '🕐',  kind: 'emoji', lesson: 1 },
+  { word: 'pen',      article: 'a',  emoji: '🖊️', kind: 'emoji', lesson: 1 },
+  { word: 'chair',    article: 'a',  emoji: '🪑',  kind: 'emoji', lesson: 1 },
+  { word: 'apple',    article: 'an', emoji: '🍎',  kind: 'emoji', lesson: 1 },
+  { word: 'umbrella', article: 'an', emoji: '☂️', kind: 'emoji', lesson: 1 },
+  { word: 'hat',      article: 'a',  emoji: '🎩',  kind: 'emoji', lesson: 1 },
+];
+
+const REVIEW_ITEMS = LESSON_ONE_ITEMS.concat(VOCAB);
+const PASS_THRESHOLD = 14;
+const QUIZ_QUESTIONS = REVIEW_ITEMS.length;
 
 // Per-pair check sequence follows the same rule as Lesson 1:
 // new word twice, then each prior item once.
@@ -708,14 +987,7 @@ const FINAL_CHECK_SEQUENCE = [
   0, 3, 1, 4, 2, 5, 6, 7,
 ];
 
-// Sentence frames
-// Pronouns don't take articles — so frame differs from Lesson 1.
-// Intro:  "This is I.   I."  (or "This is you.  You.")
-// Demonstratives use a different frame — the word IS the demonstrative:
-//   "This.   This."  /  "That.   That."
 function introSentence(idx) {
-  // All eight pronouns: no sentence frame.
-  // The gesture shows the meaning; voice just names the word twice.
   return null;
 }
 function isolatedWord(idx) {
@@ -737,6 +1009,45 @@ function incorrectFeedback(targetIdx, pickedIdx) {
   const audioT = (VOCAB[targetIdx].word === 'I') ? 'eye' : VOCAB[targetIdx].word;
   const audioP = (VOCAB[pickedIdx].word === 'I') ? 'eye' : VOCAB[pickedIdx].word;
   return `No, this is not ${audioT}. This is ${audioP}. Try again.`;
+}
+
+function audioWord(item) {
+  return item.word === 'I' ? 'eye' : item.word;
+}
+function capitalizedAudioWord(item) {
+  const word = audioWord(item);
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+function reviewReferencePhrase(item) {
+  return item.kind === 'image' ? audioWord(item) : `the ${item.word}`;
+}
+function reviewPromptSentence(idx) {
+  const item = REVIEW_ITEMS[idx];
+  return item.kind === 'image'
+    ? `Which one is ${audioWord(item)}?`
+    : `Show me the ${item.word}.`;
+}
+function reviewCorrectFeedback(idx) {
+  return `Right. This is ${reviewReferencePhrase(REVIEW_ITEMS[idx])}.`;
+}
+function reviewIncorrectFeedback(targetIdx, pickedIdx) {
+  return `No, this is not ${reviewReferencePhrase(REVIEW_ITEMS[targetIdx])}. This is ${reviewReferencePhrase(REVIEW_ITEMS[pickedIdx])}. Try again.`;
+}
+function reviewQuizIncorrectFeedback(targetIdx) {
+  return `No, that's not ${reviewReferencePhrase(REVIEW_ITEMS[targetIdx])}. Try again.`;
+}
+function itemFrameSentence(item) {
+  if (item.kind === 'image') return null;
+  return `This is ${item.article} ${item.word}.`;
+}
+function itemIsolatedWord(item) {
+  return `${capitalizedAudioWord(item)}.`;
+}
+function buildReviewFigureMarkup(item) {
+  if (item.kind === 'image') {
+    return `<div class="mixed-figure image-figure"><img src="${item.image}" alt=""></div>`;
+  }
+  return `<div class="mixed-figure emoji-figure"><div class="mixed-emoji">${item.emoji}</div></div>`;
 }
 
 // Build the lesson phases
@@ -795,7 +1106,6 @@ function buildLessonPhases() {
 }
 
 const LESSON_PHASES = buildLessonPhases();
-const TOTAL_SCREENS = 3;
 
 const T = {
   utteranceGap:   1500,
@@ -808,7 +1118,7 @@ const T = {
 };
 
 const state = {
-  screen:              0,
+  screen:              SCREEN_HOME,
   lessonRunId:         0,
   lessonPaused:        false,
   lessonPhaseIdx:      0,
@@ -819,6 +1129,15 @@ const state = {
   practiceLocked:      false,
   practiceWrongCount:  0,
   practiceHintTimer:   null,
+  quizMode:            false,
+  quizFirstTapWrong:   false,
+  quizCorrect:         0,
+  quizStartTime:       0,
+  quizAttempts:        0,
+  quizBestScore:       null,
+  quizBestStars:       0,
+  quizLastScore:       null,
+  quizLastTimeSec:     0,
 };
 
 /* ---------- AUDIO: subtle success chime ---------- */
@@ -882,12 +1201,9 @@ function speak(text, onEnd) {
   speechSynthesis.speak(u);
 }
 
-// Speak the intro frame as TWO utterances with a real pause between.
-// For pronouns: "This is I." <pause> "I."
-// For demonstratives: "This." <pause> "This."  (the word is the demonstrative)
-function speakFrame(itemIdx, runId, onEnd) {
-  const frame = introSentence(itemIdx);
-  const word = isolatedWord(itemIdx);
+function speakItemFrame(item, runId, onEnd) {
+  const frame = itemFrameSentence(item);
+  const word = itemIsolatedWord(item);
   if (frame) {
     speak(frame, () => {
       if (!aliveLesson(runId)) { onEnd && onEnd(); return; }
@@ -897,7 +1213,6 @@ function speakFrame(itemIdx, runId, onEnd) {
       }, T.frameInnerGap);
     });
   } else {
-    // Demonstrative: just say the word twice
     speak(word, () => {
       if (!aliveLesson(runId)) { onEnd && onEnd(); return; }
       state.introTimer = setTimeout(() => {
@@ -907,11 +1222,18 @@ function speakFrame(itemIdx, runId, onEnd) {
     });
   }
 }
+function speakFrame(itemIdx, runId, onEnd) {
+  speakItemFrame(VOCAB[itemIdx], runId, onEnd);
+}
+function speakReviewFrame(itemIdx, runId, onEnd) {
+  speakItemFrame(REVIEW_ITEMS[itemIdx], runId, onEnd);
+}
 
 function cancelSpeech() { try { speechSynthesis.cancel(); } catch(e) {} }
 
 /* ---------- DOM ---------- */
 const screens = document.querySelectorAll('.screen');
+const sessionButtons = document.querySelectorAll('[data-session-target]');
 const progressBar = document.getElementById('progressBar');
 const progressFill = document.getElementById('progressFill');
 const nextBtn = document.getElementById('nextBtn');
@@ -933,6 +1255,18 @@ const practiceWrap = document.getElementById('practiceWrap');
 const promptBtn = document.getElementById('promptBtn');
 const choiceRow = document.getElementById('choiceRow');
 const roundIndicator = document.getElementById('roundIndicator');
+const shelfGrid = document.getElementById('shelfGrid');
+const quizPromptBtn = document.getElementById('quizPromptBtn');
+const quizChoiceRow = document.getElementById('quizChoiceRow');
+const quizRoundIndicator = document.getElementById('quizRoundIndicator');
+const resultStars = document.getElementById('resultStars');
+const resultScoreNum = document.getElementById('resultScoreNum');
+const resultPass = document.getElementById('resultPass');
+const resultAttempt = document.getElementById('resultAttempt');
+const resultBest = document.getElementById('resultBest');
+const resultTime = document.getElementById('resultTime');
+const resultNoteLabel = document.getElementById('resultNoteLabel');
+const resultNoteText = document.getElementById('resultNoteText');
 
 /* ---------- UTIL ---------- */
 function shuffleArray(arr) {
@@ -943,18 +1277,41 @@ function shuffleArray(arr) {
   }
   return a;
 }
+function starsForScore(score) {
+  if (score >= 17) return 3;
+  if (score >= 12) return 2;
+  if (score >= 7) return 1;
+  return 0;
+}
+function renderStars(n) {
+  if (n <= 0) return '☆☆☆';
+  if (n === 1) return '★☆☆';
+  if (n === 2) return '★★☆';
+  return '★★★';
+}
+function formatTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
+function setBackLabel(text) {
+  backBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg> ${text}`;
+}
+function setNextLabel(text) {
+  nextBtn.innerHTML = `${text} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>`;
+}
 
 /* ---------- SCREEN MGMT ---------- */
 function updateProgressBar() {
   let pct = 0;
-  if (state.screen === 1 && LESSON_PHASES.length > 0) {
+  if (state.screen === SCREEN_INTRO && LESSON_PHASES.length > 0) {
     pct = Math.round((state.lessonPhaseIdx / LESSON_PHASES.length) * 100);
   }
   progressFill.style.width = pct + '%';
 }
 
 function updateSlideCounter() {
-  if (state.screen === 1 && state.lessonPhaseIdx >= 0 && state.lessonPhaseIdx < LESSON_PHASES.length) {
+  if (state.screen === SCREEN_INTRO && state.lessonPhaseIdx >= 0 && state.lessonPhaseIdx < LESSON_PHASES.length) {
     slideCounter.textContent = `Slide ${state.lessonPhaseIdx + 1} / ${LESSON_PHASES.length}`;
   } else {
     slideCounter.textContent = '';
@@ -962,49 +1319,93 @@ function updateSlideCounter() {
 }
 
 function showScreen(n) {
-  cancelLesson();
+  cancelAll();
   state.lessonPaused = false;
   state.screen = n;
   screens.forEach(s => s.classList.remove('show'));
   const target = document.querySelector(`[data-screen="${n}"]`);
   if (target) target.classList.add('show');
-  progressBar.classList.toggle('hidden', !(n === 1));
+  progressBar.classList.toggle('hidden', n !== SCREEN_INTRO);
+  skipBtn.style.display = n === SCREEN_INTRO ? 'inline-flex' : 'none';
+  closeBtn.style.visibility = n === SCREEN_HOME ? 'hidden' : 'visible';
+  closeBtn.style.pointerEvents = n === SCREEN_HOME ? 'none' : 'auto';
   updateProgressBar();
   updateSlideCounter();
   updateNav();
-  if (n === 1) startLesson();
+  if (n === SCREEN_INTRO) startLesson();
+  if (n === SCREEN_SHELF) startShelf();
+  if (n === SCREEN_QUIZ) startQuiz();
+  if (n === SCREEN_QUIZ_RESULT) renderQuizResult();
 }
 
 function updateNav() {
-  const lessonMode = state.screen === 1;
+  const lessonMode = state.screen === SCREEN_INTRO;
 
-  backBtn.style.display = lessonMode ? 'inline-flex' : 'none';
   repeatBtn.style.display = lessonMode ? 'inline-flex' : 'none';
   pauseBtn.style.display = lessonMode ? 'inline-flex' : 'none';
-  nextBtn.style.display = 'inline-flex';
-
-  backBtn.disabled = !lessonMode || state.lessonPhaseIdx === 0;
   repeatBtn.disabled = !lessonMode;
   pauseBtn.disabled = !lessonMode;
-
   pauseBtn.innerHTML = state.lessonPaused
     ? '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Resume'
     : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5h3v14H8zM13 5h3v14h-3z"/></svg>Pause';
 
   if (lessonMode) {
-    nextBtn.innerHTML = `Next <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>`;
-  } else if (state.screen === 0) {
-    nextBtn.innerHTML = `Begin <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>`;
-  } else {
-    nextBtn.innerHTML = `Restart <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>`;
+    backBtn.style.display = 'inline-flex';
+    backBtn.disabled = state.lessonPhaseIdx === 0;
+    setBackLabel('Return');
+    nextBtn.style.display = 'inline-flex';
+    nextBtn.disabled = false;
+    setNextLabel('Next');
+    return;
+  }
+
+  repeatBtn.disabled = true;
+  pauseBtn.disabled = true;
+  backBtn.disabled = false;
+  nextBtn.disabled = false;
+
+  if (state.screen === SCREEN_HOME) {
+    backBtn.style.display = 'none';
+    nextBtn.style.display = 'inline-flex';
+    setNextLabel('Introduction');
+    return;
+  }
+
+  if (state.screen === SCREEN_INTRO_DONE) {
+    backBtn.style.display = 'inline-flex';
+    setBackLabel('Home');
+    nextBtn.style.display = 'inline-flex';
+    setNextLabel('Shelf');
+    return;
+  }
+
+  if (state.screen === SCREEN_SHELF) {
+    backBtn.style.display = 'inline-flex';
+    setBackLabel('Home');
+    nextBtn.style.display = 'inline-flex';
+    setNextLabel('Quiz');
+    return;
+  }
+
+  if (state.screen === SCREEN_QUIZ) {
+    backBtn.style.display = 'inline-flex';
+    setBackLabel('Leave');
+    nextBtn.style.display = 'none';
+    return;
+  }
+
+  if (state.screen === SCREEN_QUIZ_RESULT) {
+    backBtn.style.display = 'none';
+    nextBtn.style.display = 'inline-flex';
+    setNextLabel('Home');
   }
 }
 
 function goToLessonPhase(targetIdx) {
-  if (state.screen !== 1) return;
+  if (state.screen !== SCREEN_INTRO) return;
   if (targetIdx < 0) targetIdx = 0;
   if (targetIdx >= LESSON_PHASES.length) {
-    showScreen(2);
+    showScreen(SCREEN_INTRO_DONE);
     return;
   }
   cancelLesson();
@@ -1017,7 +1418,7 @@ function goToLessonPhase(targetIdx) {
 }
 
 function repeatLessonPhase() {
-  if (state.screen !== 1) return;
+  if (state.screen !== SCREEN_INTRO) return;
   cancelLesson();
   state.lessonPaused = false;
   updateProgressBar();
@@ -1027,7 +1428,7 @@ function repeatLessonPhase() {
 }
 
 function togglePauseLesson() {
-  if (state.screen !== 1) return;
+  if (state.screen !== SCREEN_INTRO) return;
   if (state.lessonPaused) {
     state.lessonPaused = false;
     updateNav();
@@ -1041,13 +1442,21 @@ function togglePauseLesson() {
 }
 
 nextBtn.addEventListener('click', () => {
-  if (state.screen === 0) { showScreen(1); return; }
-  if (state.screen === 1) { goToLessonPhase(state.lessonPhaseIdx + 1); return; }
-  if (state.screen === TOTAL_SCREENS - 1) { resetAll(); showScreen(0); return; }
+  if (state.screen === SCREEN_HOME) { showScreen(SCREEN_INTRO); return; }
+  if (state.screen === SCREEN_INTRO) { goToLessonPhase(state.lessonPhaseIdx + 1); return; }
+  if (state.screen === SCREEN_INTRO_DONE) { showScreen(SCREEN_SHELF); return; }
+  if (state.screen === SCREEN_SHELF) { showScreen(SCREEN_QUIZ); return; }
+  if (state.screen === SCREEN_QUIZ_RESULT) { showScreen(SCREEN_HOME); return; }
 });
 
 backBtn.addEventListener('click', () => {
-  if (state.screen === 1 && state.lessonPhaseIdx > 0) goToLessonPhase(state.lessonPhaseIdx - 1);
+  if (state.screen === SCREEN_INTRO) {
+    if (state.lessonPhaseIdx > 0) goToLessonPhase(state.lessonPhaseIdx - 1);
+    return;
+  }
+  if (state.screen === SCREEN_INTRO_DONE || state.screen === SCREEN_SHELF || state.screen === SCREEN_QUIZ) {
+    showScreen(SCREEN_HOME);
+  }
 });
 
 repeatBtn.addEventListener('click', () => {
@@ -1059,13 +1468,18 @@ pauseBtn.addEventListener('click', () => {
 });
 
 closeBtn.addEventListener('click', () => {
-  // Prototype: route to welcome. In the integrated app this goes home.
-  showScreen(0);
+  showScreen(SCREEN_HOME);
 });
 
 skipBtn.addEventListener('click', () => {
-  if (state.screen !== 1) return;
+  if (state.screen !== SCREEN_INTRO) return;
   goToLessonPhase(state.lessonPhaseIdx + 1);
+});
+
+sessionButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    showScreen(Number(btn.dataset.sessionTarget));
+  });
 });
 
 /* ---------- MODE (solo / alt / practice) ---------- */
@@ -1078,6 +1492,11 @@ function setMode(mode) {
 }
 
 /* ---------- LESSON ORCHESTRATION ---------- */
+function cancelAll() {
+  cancelLesson();
+  cancelSpeech();
+  cancelHintTimer();
+}
 function cancelLesson() {
   state.lessonRunId++;
   if (state.introTimer) { clearTimeout(state.introTimer); state.introTimer = null; }
@@ -1088,13 +1507,18 @@ function cancelLesson() {
   soloCard.classList.remove('speaking');
   pairRow.querySelectorAll('.pair-card').forEach(c => c.classList.remove('active'));
   promptBtn.classList.remove('playing');
+  quizPromptBtn.classList.remove('playing');
+  choiceRow.querySelectorAll('.choice-card').forEach(c => c.classList.remove('hint', 'dim', 'correct', 'incorrect', 'locked-wrong'));
+  quizChoiceRow.querySelectorAll('.choice-card').forEach(c => c.classList.remove('hint', 'dim', 'correct', 'incorrect', 'locked-wrong'));
+  shelfGrid.querySelectorAll('.shelf-card').forEach(c => c.classList.remove('speaking'));
 }
 function aliveLesson(runId) {
-  return runId === state.lessonRunId && state.screen === 1;
+  return runId === state.lessonRunId;
 }
 
 function startLesson() {
   cancelLesson();
+  state.quizMode = false;
   state.lessonPaused = false;
   state.lessonRunId++;
   state.lessonPhaseIdx = 0;
@@ -1104,16 +1528,19 @@ function startLesson() {
 }
 
 function runLessonPhase() {
-  if (state.screen !== 1) return;
+  if (state.screen !== SCREEN_INTRO) return;
   updateProgressBar();
   updateSlideCounter();
   updateNav();
 
-  if (state.lessonPaused) return;
+  if (state.lessonPaused) {
+    listeningHint.textContent = 'Paused.';
+    return;
+  }
 
   if (state.lessonPhaseIdx >= LESSON_PHASES.length) {
     state.introTimer = setTimeout(() => {
-      if (state.screen === 1) showScreen(2);
+      if (state.screen === SCREEN_INTRO) showScreen(SCREEN_INTRO_DONE);
     }, T.afterIntro);
     return;
   }
@@ -1150,6 +1577,7 @@ function runLessonPhase() {
     state.practiceRoundIdx = 0;
     state.practiceLocked = false;
     state.practiceWrongCount = 0;
+    state.quizMode = false;
     setMode('practice');
     state.introTimer = setTimeout(() => {
       if (!aliveLesson(myRunId)) return;
@@ -1243,12 +1671,10 @@ function runAlternating(myRunId, sequence, onDone) {
     if (i >= sequence.length) { onDone && onDone(); return; }
     const which = sequence[i];
     pairRow.querySelectorAll('.pair-card').forEach(c => {
-      const idx = parseInt(c.dataset.pair);
+      const idx = parseInt(c.dataset.pair, 10);
       c.classList.toggle('active', idx === which);
     });
-    // In alternation phase, use bare word (frame has done its job)
-    const audioWord = (VOCAB[which].word === 'I') ? 'eye' : VOCAB[which].word;
-    speak(audioWord, () => {
+    speak(audioWord(VOCAB[which]), () => {
       if (!aliveLesson(myRunId)) return;
       i++;
       state.introTimer = setTimeout(step, T.utteranceGap);
@@ -1262,61 +1688,83 @@ function startPracticeRound() {
   cancelHintTimer();
   state.practiceLocked = false;
   state.practiceWrongCount = 0;
+  if (state.quizMode) state.quizFirstTapWrong = false;
   renderPracticeChoices();
   renderRoundIndicator();
   const myRunId = state.lessonRunId;
-  setTimeout(() => {
+  state.introTimer = setTimeout(() => {
     if (!aliveLesson(myRunId)) return;
     playPracticePrompt();
   }, 350);
 }
 
 function renderPracticeChoices() {
+  const container = state.quizMode ? quizChoiceRow : choiceRow;
   const shuffled = shuffleArray(state.practiceItems);
-  choiceRow.innerHTML = '';
-  // For 2 items use 2 cols; for 4 use 2x2; for 6 use 3 cols; for 8 use 4 cols.
+  container.innerHTML = '';
   const n = shuffled.length;
-  if (n <= 2) choiceRow.style.gridTemplateColumns = 'repeat(2, 1fr)';
-  else if (n <= 4) choiceRow.style.gridTemplateColumns = 'repeat(2, 1fr)';
-  else if (n <= 6) choiceRow.style.gridTemplateColumns = 'repeat(3, 1fr)';
-  else choiceRow.style.gridTemplateColumns = 'repeat(4, 1fr)';
+  if (state.quizMode) {
+    container.style.gridTemplateColumns = 'repeat(auto-fit, minmax(78px, 1fr))';
+  } else if (n <= 2) {
+    container.style.gridTemplateColumns = 'repeat(2, 1fr)';
+  } else if (n <= 4) {
+    container.style.gridTemplateColumns = 'repeat(2, 1fr)';
+  } else if (n <= 6) {
+    container.style.gridTemplateColumns = 'repeat(3, 1fr)';
+  } else {
+    container.style.gridTemplateColumns = 'repeat(4, 1fr)';
+  }
 
   shuffled.forEach(itemIdx => {
-    const v = VOCAB[itemIdx];
     const c = document.createElement('div');
     c.className = 'choice-card';
     c.dataset.choice = itemIdx;
-    c.innerHTML = `<div class="choice-figure"><img src="${v.image}" alt=""></div>`;
+    if (state.quizMode) {
+      const item = REVIEW_ITEMS[itemIdx];
+      if (item.kind === 'emoji') c.classList.add('emoji-card');
+      c.innerHTML = buildReviewFigureMarkup(item);
+    } else {
+      const v = VOCAB[itemIdx];
+      c.innerHTML = `<div class="choice-figure"><img src="${v.image}" alt=""></div>`;
+    }
     c.addEventListener('click', () => handleChoice(itemIdx, c));
-    choiceRow.appendChild(c);
+    container.appendChild(c);
   });
 }
 
 function renderRoundIndicator() {
   const total = state.practiceSequence.length;
   const idx = state.practiceRoundIdx + 1;
-  const stageSize = state.practiceItems.length;
-  roundIndicator.textContent = `Set of ${stageSize} — round ${idx} of ${total}`;
+  if (state.quizMode) {
+    quizRoundIndicator.textContent = `Question ${idx} of ${total}`;
+  } else {
+    const stageSize = state.practiceItems.length;
+    roundIndicator.textContent = `Set of ${stageSize} — round ${idx} of ${total}`;
+  }
 }
 
 function currentPracticeTarget() { return state.practiceSequence[state.practiceRoundIdx]; }
+function currentPromptBtn() { return state.quizMode ? quizPromptBtn : promptBtn; }
+function currentChoiceRow() { return state.quizMode ? quizChoiceRow : choiceRow; }
 
 function playPracticePrompt() {
-  if (state.screen !== 1) return;
+  if (state.screen !== SCREEN_INTRO && state.screen !== SCREEN_QUIZ) return;
   const targetIdx = currentPracticeTarget();
   const myRunId = state.lessonRunId;
-  promptBtn.classList.add('playing');
-  speak(promptSentence(targetIdx), () => {
-    promptBtn.classList.remove('playing');
+  const btn = currentPromptBtn();
+  const text = state.quizMode ? reviewPromptSentence(targetIdx) : promptSentence(targetIdx);
+  btn.classList.add('playing');
+  speak(text, () => {
+    btn.classList.remove('playing');
     if (!aliveLesson(myRunId)) return;
-    armHintTimer();
+    if (!state.quizMode) armHintTimer();
   });
 }
 
 function armHintTimer() {
   cancelHintTimer();
   state.practiceHintTimer = setTimeout(() => {
-    if (state.screen !== 1 || state.practiceLocked) return;
+    if (state.screen !== SCREEN_INTRO || state.practiceLocked) return;
     const targetIdx = currentPracticeTarget();
     const targetCard = choiceRow.querySelector(`[data-choice="${targetIdx}"]`);
     if (targetCard) targetCard.classList.add('hint');
@@ -1325,9 +1773,14 @@ function armHintTimer() {
 function cancelHintTimer() {
   if (state.practiceHintTimer) { clearTimeout(state.practiceHintTimer); state.practiceHintTimer = null; }
   choiceRow.querySelectorAll('.choice-card').forEach(c => c.classList.remove('hint'));
+  quizChoiceRow.querySelectorAll('.choice-card').forEach(c => c.classList.remove('hint'));
 }
 
 promptBtn.addEventListener('click', () => {
+  if (state.practiceLocked) return;
+  playPracticePrompt();
+});
+quizPromptBtn.addEventListener('click', () => {
   if (state.practiceLocked) return;
   playPracticePrompt();
 });
@@ -1342,11 +1795,13 @@ function handleChoice(idx, el) {
   if (idx === targetIdx) {
     el.classList.add('correct');
     playSuccessChime();
+    if (state.quizMode && !state.quizFirstTapWrong) state.quizCorrect++;
     setTimeout(() => {
       if (!aliveLesson(myRunId)) return;
-      speak(correctFeedback(idx), () => {
+      const text = state.quizMode ? reviewCorrectFeedback(idx) : correctFeedback(idx);
+      speak(text, () => {
         if (!aliveLesson(myRunId)) return;
-        choiceRow.querySelectorAll('.choice-card').forEach(c => { if (c !== el) c.classList.add('dim'); });
+        currentChoiceRow().querySelectorAll('.choice-card').forEach(c => { if (c !== el) c.classList.add('dim'); });
         setTimeout(() => {
           if (!aliveLesson(myRunId)) return;
           nextPracticeRound();
@@ -1356,15 +1811,22 @@ function handleChoice(idx, el) {
   } else {
     el.classList.add('incorrect');
     state.practiceWrongCount++;
+    if (state.quizMode) {
+      state.quizFirstTapWrong = true;
+      el.classList.add('locked-wrong');
+    }
     setTimeout(() => el.classList.remove('incorrect'), 450);
+    const feedbackText = state.quizMode
+      ? reviewQuizIncorrectFeedback(targetIdx)
+      : incorrectFeedback(targetIdx, idx);
     setTimeout(() => {
       if (!aliveLesson(myRunId)) return;
-      speak(incorrectFeedback(targetIdx, idx), () => {
+      speak(feedbackText, () => {
         if (!aliveLesson(myRunId)) return;
         setTimeout(() => {
           if (!aliveLesson(myRunId)) return;
           state.practiceLocked = false;
-          if (state.practiceWrongCount >= 2) {
+          if (!state.quizMode && state.practiceWrongCount >= 2) {
             const targetCard = choiceRow.querySelector(`[data-choice="${targetIdx}"]`);
             if (targetCard) targetCard.classList.add('hint');
           }
@@ -1379,8 +1841,92 @@ function nextPracticeRound() {
   if (state.practiceRoundIdx < state.practiceSequence.length - 1) {
     state.practiceRoundIdx++;
     startPracticeRound();
+  } else if (state.quizMode) {
+    finishQuiz();
   } else {
     onPhaseComplete(state.lessonRunId);
+  }
+}
+
+/* ---------- SHELF ---------- */
+function startShelf() {
+  shelfGrid.innerHTML = '';
+  REVIEW_ITEMS.forEach((item, i) => {
+    const c = document.createElement('div');
+    c.className = 'shelf-card';
+    if (item.kind === 'emoji') c.classList.add('emoji-card');
+    c.dataset.shelfIdx = i;
+    c.innerHTML = buildReviewFigureMarkup(item);
+    c.addEventListener('click', () => handleShelfTap(i, c));
+    shelfGrid.appendChild(c);
+  });
+}
+function handleShelfTap(itemIdx, el) {
+  shelfGrid.querySelectorAll('.shelf-card').forEach(c => c.classList.remove('speaking'));
+  el.classList.add('speaking');
+  const myRunId = state.lessonRunId;
+  speakReviewFrame(itemIdx, myRunId, () => {
+    if (!aliveLesson(myRunId)) return;
+    el.classList.remove('speaking');
+  });
+}
+
+/* ---------- QUIZ ---------- */
+function startQuiz() {
+  state.lessonRunId++;
+  state.quizMode = true;
+  state.quizFirstTapWrong = false;
+  state.quizCorrect = 0;
+  state.quizStartTime = Date.now();
+  state.practiceItems = Array.from({ length: REVIEW_ITEMS.length }, (_, i) => i);
+  state.practiceSequence = shuffleArray(state.practiceItems);
+  state.practiceRoundIdx = 0;
+  state.practiceLocked = false;
+  state.practiceWrongCount = 0;
+  const myRunId = state.lessonRunId;
+  state.introTimer = setTimeout(() => {
+    if (!aliveLesson(myRunId) || state.screen !== SCREEN_QUIZ) return;
+    startPracticeRound();
+  }, 250);
+}
+function finishQuiz() {
+  const score = state.quizCorrect;
+  const elapsed = (Date.now() - state.quizStartTime) / 1000;
+  const stars = starsForScore(score);
+
+  state.quizAttempts++;
+  state.quizLastScore = score;
+  state.quizLastTimeSec = Math.round(elapsed);
+  if (state.quizBestScore === null || score > state.quizBestScore) state.quizBestScore = score;
+  if (stars > state.quizBestStars) state.quizBestStars = stars;
+  state.quizMode = false;
+  showScreen(SCREEN_QUIZ_RESULT);
+}
+function renderQuizResult() {
+  const score = state.quizLastScore || 0;
+  const stars = starsForScore(score);
+  const passed = score >= PASS_THRESHOLD;
+
+  resultStars.textContent = renderStars(stars);
+  resultStars.classList.toggle('empty', stars === 0);
+  resultScoreNum.textContent = score;
+  resultPass.textContent = passed ? 'You passed.' : `Keep listening — ${PASS_THRESHOLD}/20 to pass.`;
+  resultPass.classList.toggle('pass', passed);
+  resultPass.classList.toggle('nopass', !passed);
+
+  resultAttempt.textContent = state.quizAttempts;
+  resultBest.textContent = `${state.quizBestScore || 0}/20`;
+  resultTime.textContent = formatTime(state.quizLastTimeSec || 0);
+
+  if (stars === 3 && passed) {
+    resultNoteLabel.textContent = 'Three stars';
+    resultNoteText.innerHTML = 'Strong recognition across both lessons. The nouns and pronouns are starting to sit together naturally.';
+  } else if (passed) {
+    resultNoteLabel.textContent = 'You passed';
+    resultNoteText.innerHTML = 'A good result. The Shelf is there whenever you want one calmer pass through all twenty items.';
+  } else {
+    resultNoteLabel.textContent = 'Not yet';
+    resultNoteText.innerHTML = 'Try the Introduction or the Shelf again, then return to the quiz. A slower pass often helps the words settle.';
   }
 }
 
@@ -1392,10 +1938,13 @@ function resetAll() {
   state.practiceRoundIdx = 0;
   state.practiceLocked = false;
   state.practiceWrongCount = 0;
+  state.quizMode = false;
+  state.quizFirstTapWrong = false;
+  state.quizCorrect = 0;
 }
 
 /* ---------- INIT ---------- */
-showScreen(0);
+showScreen(SCREEN_HOME);
 
 document.addEventListener('click', function once() {
   if (!voicesReady) loadVoices();
