@@ -367,8 +367,10 @@
   .pair-card.active {
     opacity: 1;
     transform: scale(1);
-    border-color: var(--clay);
-    box-shadow: 0 6px 20px rgba(184, 92, 56, 0.18);
+    border-color: var(--clay-soft);
+    box-shadow:
+      0 6px 20px rgba(31, 42, 46, 0.1),
+      0 0 0 3px var(--clay-soft);
   }
 
   /* -------- PRACTICE -------- */
@@ -627,6 +629,10 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
     Home
   </button>
+  <button class="btn btn-ghost" id="returnBtn" title="Do this page again" aria-label="Do this page again">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l6-6"/><path d="M3 12l6 6"/><path d="M3 12h10a5 5 0 0 1 0 10h-1"/></svg>
+    Return
+  </button>
   <button class="btn btn-primary" id="nextBtn">
     Begin
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
@@ -883,6 +889,7 @@ const progressBar = document.getElementById('progressBar');
 const progressFill = document.getElementById('progressFill');
 const nextBtn = document.getElementById('nextBtn');
 const backBtn = document.getElementById('backBtn');
+const returnBtn = document.getElementById('returnBtn');
 const closeBtn = document.getElementById('closeBtn');
 const skipBtn = document.getElementById('skipBtn');
 
@@ -935,6 +942,7 @@ function updateNav() {
   nextBtn.innerHTML = `${labels[state.screen]} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>`;
   nextBtn.style.visibility = (state.screen === 0 || state.screen === TOTAL_SCREENS - 1) ? 'visible' : 'hidden';
   backBtn.style.visibility = state.screen === 0 ? 'hidden' : 'visible';
+  returnBtn.style.display = state.screen === 1 ? 'inline-flex' : 'none';
 }
 
 nextBtn.addEventListener('click', () => {
@@ -944,6 +952,12 @@ nextBtn.addEventListener('click', () => {
 
 backBtn.addEventListener('click', () => {
   if (state.screen > 0) showScreen(0);
+});
+
+returnBtn.addEventListener('click', () => {
+  if (state.screen !== 1) return;
+  cancelLesson();
+  runLessonPhase();
 });
 
 closeBtn.addEventListener('click', () => {
