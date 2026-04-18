@@ -682,30 +682,29 @@ const FINAL_CHECK_SEQUENCE = [
 // Demonstratives use a different frame — the word IS the demonstrative:
 //   "This.   This."  /  "That.   That."
 function introSentence(idx) {
-  const v = VOCAB[idx];
-  const W = v.word.charAt(0).toUpperCase() + v.word.slice(1);
-  // Demonstratives (this, that): just say the word twice for the frame
-  if (v.word === 'this' || v.word === 'that') {
-    return null;  // handled differently — just play word twice
-  }
-  return `This is ${v.word}.`;
+  // All eight pronouns: no sentence frame.
+  // The gesture shows the meaning; voice just names the word twice.
+  return null;
 }
 function isolatedWord(idx) {
   const v = VOCAB[idx];
-  return v.word.charAt(0).toUpperCase() + v.word.slice(1) + '.';
+  const audioWord = (v.word === 'I') ? 'Eye' : (v.word.charAt(0).toUpperCase() + v.word.slice(1));
+  return audioWord + '.';
 }
 function promptSentence(idx) {
   const v = VOCAB[idx];
-  // For pronouns, ask "Point to I" → natural but a bit odd. Better: "Which one is I?"
-  // But the Thomsons' model uses "Where is I?" — which also sounds odd in English.
-  // For pronouns we use "Which one is [X]?" — clearest prompt form.
-  return `Which one is ${v.word}?`;
+  const audioWord = (v.word === 'I') ? 'eye' : v.word;
+  return `Which one is ${audioWord}?`;
 }
 function correctFeedback(idx) {
-  return `Right. This is ${VOCAB[idx].word}.`;
+  const v = VOCAB[idx];
+  const audioWord = (v.word === 'I') ? 'eye' : v.word;
+  return `Right. This is ${audioWord}.`;
 }
 function incorrectFeedback(targetIdx, pickedIdx) {
-  return `No, this is not ${VOCAB[targetIdx].word}. This is ${VOCAB[pickedIdx].word}. Try again.`;
+  const audioT = (VOCAB[targetIdx].word === 'I') ? 'eye' : VOCAB[targetIdx].word;
+  const audioP = (VOCAB[pickedIdx].word === 'I') ? 'eye' : VOCAB[pickedIdx].word;
+  return `No, this is not ${audioT}. This is ${audioP}. Try again.`;
 }
 
 // Build the lesson phases
