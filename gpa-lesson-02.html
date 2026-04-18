@@ -1130,7 +1130,8 @@ function runAlternating(myRunId, sequence, onDone) {
       c.classList.toggle('active', idx === which);
     });
     // In alternation phase, use bare word (frame has done its job)
-    speak(VOCAB[which].word, () => {
+    const audioWord = (VOCAB[which].word === 'I') ? 'eye' : VOCAB[which].word;
+    speak(audioWord, () => {
       if (!aliveLesson(myRunId)) return;
       i++;
       state.introTimer = setTimeout(step, T.utteranceGap);
